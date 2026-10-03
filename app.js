@@ -7,12 +7,12 @@ async function render(){
  if(!token()) return login();
  const me=await api('/api/me'); me.role==='admin'?admin(me):user(me);
 }
-function login(){app.innerHTML=`<div class="wrap" style="max-width:430px"><div class="card"><h1>EarnHub</h1><p class="muted">Project earning platform</p><div class="tabs"><button class="btn" onclick="showLogin()">Login</button><button class="btn secondary" onclick="showRegister()">Register</button></div><div id="form"></div></div></div>`;showLogin()}
+function login(){app.innerHTML=`<div class="wrap" style="max-width:430px"><div class="card"><h1>Cashback Pro</h1><p class="muted">Project earning platform</p><div class="tabs"><button class="btn" onclick="showLogin()">Login</button><button class="btn secondary" onclick="showRegister()">Register</button></div><div id="form"></div></div></div>`;showLogin()}
 function showLogin(){document.getElementById('form').innerHTML=`<input class="input" id="email" placeholder="Email"><input class="input" id="password" type="password" placeholder="Password"><button class="btn" onclick="doLogin()">Login</button>`}
 function showRegister(){document.getElementById('form').innerHTML=`<input class="input" id="name" placeholder="Name"><input class="input" id="email" placeholder="Email"><input class="input" id="password" type="password" placeholder="Password"><input class="input" id="ref" placeholder="Referral code (optional)"><button class="btn" onclick="doRegister()">Create account</button>`}
 async function doLogin(){try{let d=await api('/api/login',{method:'POST',body:JSON.stringify({email:email.value,password:password.value})});localStorage.token=d.token;render()}catch(e){alert(e.message)}}
-async function doRegister(){try{let d=await api('/api/register',{method:'POST',body:JSON.stringify({name:name.value,email:email.value,password:password.value,referralCode:ref.value})});localStorage.token=d.token;render()}catch(e){alert(e.message)}}
-function nav(title){return `<div class="nav"><div class="brand">EarnHub</div><div>${esc(title)} <button class="btn secondary" onclick="logout()">Logout</button></div></div>`}
+async function doRegister(){try{let d=await api('/api/register',{method:'POST',body:JSON.stringify({name:document.getElementById('name').value,email:document.getElementById('email').value,password:document.getElementById('password').value,referralCode:document.getElementById('ref').value})});localStorage.token=d.token;render()}catch(e){alert(e.message)}}
+function nav(title){return `<div class="nav"><div class="brand">Cashback Pro</div><div>${esc(title)} <button class="btn secondary" onclick="logout()">Logout</button></div></div>`}
 function logout(){localStorage.clear();render()}
 async function user(me){
  const projects=await api('/api/projects'), comps=await api('/api/completions');
