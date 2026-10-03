@@ -11,7 +11,7 @@ const PORT=process.env.PORT||3000;
 const JWT_SECRET=process.env.JWT_SECRET||'CHANGE_THIS_SECRET_BEFORE_PRODUCTION';
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname,'public')));
+app.use(express.static(__dirname));
 app.use((req,res,next)=>{ if(req.path.startsWith('/api/')) res.setHeader('Cache-Control','no-store'); next(); });
 
 db.exec(`
@@ -192,5 +192,5 @@ app.post('/api/admin/withdrawals/:id/paid',auth,adminOnly,(req,res)=>{
   res.json({ok:true});
 });
 
-app.get('*',(req,res)=>res.sendFile(path.join(__dirname,'public','index.html')));
+app.use((req,res)=>res.sendFile(path.join(__dirname,'index.html')));
 app.listen(PORT,()=>console.log(`Running on http://localhost:${PORT}`));
